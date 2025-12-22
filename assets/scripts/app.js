@@ -1,6 +1,8 @@
 let currentGroup = null;
 let protoRoot = null;
 let STOP_NAMES = {};
+let allStationETAs = {};
+let activeTrains = new Set();
 async function initProtobuf() {
     if (!protoRoot) {
         protoRoot = await protobuf.load("./api/data/gtfs-realtime.proto");
@@ -28,7 +30,6 @@ async function loadStopNames() {
                 STOP_NAMES[stopId] = stopName;
             }
         }
-        console.log(`Loaded ${Object.keys(STOP_NAMES).length} stop names`);
     } catch (error) {
         console.error('Error loading stop names:', error);
     }
@@ -61,10 +62,12 @@ async function fetchFeedData(group) {
 }
 function processFeedData(feed) {
     const stationETAs = {};
+    const trains = new Set();
     feed.entity.forEach(entity => {
         if (!entity.tripUpdate) return;
         const trip = entity.tripUpdate.trip;
         const routeId = trip.routeId;
+        trains.add(routeId);
         if (!entity.tripUpdate.stopTimeUpdate) return;
         entity.tripUpdate.stopTimeUpdate.forEach(stopTime => {
             const stopId = stopTime.stopId;
@@ -87,15 +90,58 @@ function processFeedData(feed) {
     });
     Object.values(stationETAs).forEach(station => {
         station.arrivals.sort((a, b) => a.time - b.time);
-        station.arrivals = station.arrivals.slice(0, 5);
     });
-    return stationETAs;
+    return { stationETAs, trains: Array.from(trains).sort() };
+}
+function createTrainFilters(trains) {
+    const filterContainer = document.getElementById('trainFilters');
+    if (!filterContainer) return;
+    activeTrains = new Set(trains);
+    filterContainer.innerHTML = trains.map(train => `
+        <button class="train-filter active" data-train="${train}">
+            ${train}
+            <span class="filter-x">×</span>
+        </button>
+    `).join('');
+    filterContainer.querySelectorAll('.train-filter').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const train = btn.dataset.train;
+            if (activeTrains.has(train)) {
+                activeTrains.delete(train);
+                btn.classList.remove('active');
+            } else {
+                activeTrains.add(train);
+                btn.classList.add('active');
+            }
+            applyFilters();
+        });
+    });
+}
+function applyFilters() {
+    const searchTerm = document.getElementById('stationSearch').value.toLowerCase();
+    const content = document.getElementById('etaContent');
+    let filteredStations = {};
+    Object.entries(allStationETAs).forEach(([stationId, station]) => {
+        if (searchTerm && !station.name.toLowerCase().includes(searchTerm)) {
+            return;
+        }
+        const filteredArrivals = station.arrivals.filter(arrival => 
+            activeTrains.has(arrival.route)
+        ).slice(0, 5);
+        if (filteredArrivals.length > 0) {
+            filteredStations[stationId] = {
+                ...station,
+                arrivals: filteredArrivals
+            };
+        }
+    });
+    displayETAs(filteredStations);
 }
 function displayETAs(stationETAs, cacheTime) {
     const content = document.getElementById('etaContent');
     const cacheInfo = document.getElementById('cacheInfo');
     if (Object.keys(stationETAs).length === 0) {
-        content.innerHTML = '<div class="no-data">No upcoming trains found</div>';
+        content.innerHTML = '<div class="no-data">No trains found matching your filters</div>';
         return;
     }
     let html = '';
@@ -131,8 +177,11 @@ async function loadETAs(group) {
     refreshBtn.disabled = true;
     try {
         const feed = await fetchFeedData(group);
-        const stationETAs = processFeedData(feed);
-        displayETAs(stationETAs);
+        const { stationETAs, trains } = processFeedData(feed);
+        allStationETAs = stationETAs;
+        createTrainFilters(trains);
+        document.getElementById('filtersContainer').style.display = 'block';
+        applyFilters();
     } catch (error) {
         content.innerHTML = `<div class="error">Error loading data: ${error.message}</div>`;
     } finally {
@@ -147,6 +196,7 @@ function selectGroup(group) {
     document.querySelector(`[data-group="${group}"]`).classList.add('active');
     document.getElementById('etaContainer').classList.add('show');
     document.getElementById('selectedGroup').textContent = group.toUpperCase() + ' Trains';
+    document.getElementById('stationSearch').value = '';
     loadETAs(group);
 }
 function initializeUI() {
@@ -171,7 +221,7 @@ function initializeUI() {
     });
     container.innerHTML = `
         <main>
-            <h1>NYC Subway Dashboard</h1>
+            <h1>MTA Subway Check</h1>
             <div class="train-groups" id="trainGroups">
                 ${trainGroupsHTML}
             </div>
@@ -179,6 +229,10 @@ function initializeUI() {
                 <div class="eta-header">
                     <h2 id="selectedGroup"></h2>
                     <button class="refresh-btn" id="refreshBtn">Refresh</button>
+                </div>
+                <div id="filtersContainer" class="filters-container">
+                    <div id="trainFilters" class="train-filters"></div>
+                    <input type="text" id="stationSearch" class="station-search" placeholder="Search stations...">
                 </div>
                 <div id="etaContent"></div>
                 <div class="cache-info" id="cacheInfo"></div>
@@ -194,6 +248,9 @@ function initializeUI() {
         if (currentGroup) {
             loadETAs(currentGroup);
         }
+    });
+    document.getElementById('stationSearch').addEventListener('input', () => {
+        applyFilters();
     });
     setInterval(() => {
         if (currentGroup) {
