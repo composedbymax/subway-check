@@ -9,9 +9,26 @@ async function initProtobuf() {
 }
 async function loadStopNames() {
     try {
-        const response = await fetch('./api/data/stops.json');
-        if (!response.ok) throw new Error('Failed to load stops.json');
-        STOP_NAMES = await response.json();
+        const response = await fetch('./api/data/stops.txt');
+        if (!response.ok) throw new Error('Failed to load stops.txt');
+        const text = await response.text();
+        const lines = text.split('\n');
+        const headers = lines[0].split(',').map(h => h.trim());
+        const idIndex = headers.indexOf('stop_id');
+        const nameIndex = headers.indexOf('stop_name');
+        const locationTypeIndex = headers.indexOf('location_type');
+        STOP_NAMES = {};
+        for (let i = 1; i < lines.length; i++) {
+            if (!lines[i]) continue;
+            const cols = lines[i].split(',');
+            const stopId = cols[idIndex];
+            const stopName = cols[nameIndex];
+            const locationType = cols[locationTypeIndex];
+            if (locationType === '1') {
+                STOP_NAMES[stopId] = stopName;
+            }
+        }
+        console.log(`Loaded ${Object.keys(STOP_NAMES).length} stop names`);
     } catch (error) {
         console.error('Error loading stop names:', error);
     }

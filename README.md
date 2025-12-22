@@ -21,6 +21,9 @@ MMMMMMMMMMM MMMMMMMMMMMM MMMMMMMMMMMM MMMMMMMMMMM MMMMMMMMMMM
 
 This app uses official **MTA Subway GTFS-Realtime feeds**:
 
+- **MTA Stops**  
+  https://www.mta.info/developers
+
 - **MTA Realtime Feeds**  
   https://api.mta.info/#/subwayRealTimeFeeds
 
