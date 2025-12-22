@@ -100,13 +100,18 @@ function processFeedData(feed) {
 function createTrainFilters(trains) {
     const filterContainer = document.getElementById('trainFilters');
     if (!filterContainer) return;
-    activeTrains = new Set(trains);
-    filterContainer.innerHTML = trains.map(train => `
-        <button class="train-filter active" data-train="${train}">
-            ${train}
-            <span class="filter-x">×</span>
-        </button>
-    `).join('');
+    if (activeTrains.size === 0) {
+        activeTrains = new Set(trains);
+    }
+    filterContainer.innerHTML = trains.map(train => {
+        const isActive = activeTrains.has(train);
+        return `
+            <button class="train-filter ${isActive ? 'active' : ''}" data-train="${train}">
+                ${train}
+                <span class="filter-x">×</span>
+            </button>
+        `;
+    }).join('');
     filterContainer.querySelectorAll('.train-filter').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const train = btn.dataset.train;
