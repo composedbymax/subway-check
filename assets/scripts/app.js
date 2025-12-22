@@ -69,6 +69,9 @@ function processFeedData(feed) {
         const routeId = trip.routeId;
         trains.add(routeId);
         if (!entity.tripUpdate.stopTimeUpdate) return;
+        const stops = entity.tripUpdate.stopTimeUpdate.map(st => st.stopId);
+        const firstStop = stops[0];
+        const lastStop = stops[stops.length - 1];
         entity.tripUpdate.stopTimeUpdate.forEach(stopTime => {
             const stopId = stopTime.stopId;
             const arrival = stopTime.arrival || stopTime.departure;
@@ -80,11 +83,12 @@ function processFeedData(feed) {
                     arrivals: []
                 };
             }
+            const direction = getStopName(lastStop);
             stationETAs[stationId].arrivals.push({
                 route: routeId,
-                direction: stopId.endsWith('N') ? 'Northbound' : 'Southbound',
+                direction,
                 time: arrival.time,
-                stopId: stopId
+                stopId
             });
         });
     });
@@ -202,7 +206,7 @@ function selectGroup(group) {
 function initializeUI() {
     const container = document.getElementById('appContainer');
     const trainGroupsData = [
-        { group: 'ace', name: 'ACE', description: '8th Ave Lines' },
+        { group: 'ace', name: 'ACEH', description: '8th Ave Lines' },
         { group: 'g', name: 'G', description: 'Brooklyn-Queens' },
         { group: 'nqrw', name: 'NQRW', description: 'Broadway Lines' },
         { group: '1234567s', name: '1234567S', description: 'East Side & West Side' },
