@@ -153,18 +153,20 @@ function initializeUI() {
         `;
     });
     container.innerHTML = `
-        <h1>NYC Subway Dashboard</h1>
-        <div class="train-groups" id="trainGroups">
-            ${trainGroupsHTML}
-        </div>
-        <div class="eta-container" id="etaContainer">
-            <div class="eta-header">
-                <h2 id="selectedGroup"></h2>
-                <button class="refresh-btn" id="refreshBtn">Refresh</button>
+        <main>
+            <h1>NYC Subway Dashboard</h1>
+            <div class="train-groups" id="trainGroups">
+                ${trainGroupsHTML}
             </div>
-            <div id="etaContent"></div>
-            <div class="cache-info" id="cacheInfo"></div>
-        </div>
+            <div class="eta-container" id="etaContainer">
+                <div class="eta-header">
+                    <h2 id="selectedGroup"></h2>
+                    <button class="refresh-btn" id="refreshBtn">Refresh</button>
+                </div>
+                <div id="etaContent"></div>
+                <div class="cache-info" id="cacheInfo"></div>
+            </div>
+        </main>
     `;
     document.querySelectorAll('.train-group').forEach(el => {
         el.addEventListener('click', () => {
