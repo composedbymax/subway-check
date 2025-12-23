@@ -1,0 +1,33 @@
+{
+  "name": "MW – Subway Check",
+  "short_name": "Subway Check",
+  "description": "Real-time NYC Subway dashboard showing train status, service changes, and system information.",
+  "start_url": "/subway-check/?source=pwa",
+  "scope": "/subway-check/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "categories": ["travel", "utilities", "maps"],
+  "lang": "en-US",
+  "icons": [
+    {
+      "src": "/_assets/img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/_assets/img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/_assets/img/subway-check.webp",
+      "sizes": "1080x1920",
+      "type": "image/webp"
+    }
+  ]
+}
