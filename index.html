@@ -1,11 +1,11 @@
 <!--
-MP""""""`MM M""MMMMM""M M#"""""""'M  M""MMM""MMM""M MMP"""""""MM M""MMMM""M 
+MP""""""`MM M""MMMMM""M M#"""""""'MM M""MMM""MMM""M MMP"""""""MM M""MMMM""M 
 M  mmmmm..M M  MMMMM  M ##  mmmm. `M M  MMM  MMM  M M' .mmmm  MM M. `MM' .M 
 M.      `YM M  MMMMM  M #'        .M M  MMP  MMP  M M         `M MM.    .MM 
 MMMMMMM.  M M  MMMMM  M M#  MMMb.'YM M  MM'  MM' .M M  MMMMM  MM MMMb  dMMM 
 M. .MMM'  M M  `MMM'  M M#  MMMM'  M M  `' . '' .MM M  MMMMM  MM MMMM  MMMM 
 Mb.     .dM Mb       dM M#       .;M M    .d  .dMMM M  MMMMM  MM MMMM  MMMM 
-MMMMMMMMMMM MMMMMMMMMMM M#########M  MMMMMMMMMMMMMM MMMMMMMMMMMM MMMMMMMMMM 
+MMMMMMMMMMM MMMMMMMMMMM M#########MM MMMMMMMMMMMMMM MMMMMMMMMMMM MMMMMMMMMM 
                                                                             
 MM'""""'YMM M""MMMMM""MM MM""""""""`M MM'""""'YMM M""MMMMM""M               
 M' .mmm. `M M  MMMMM  MM MM  mmmmmmmM M' .mmm. `M M  MMMM' .M               
@@ -18,33 +18,64 @@ MMMMMMMMMMM MMMMMMMMMMMM MMMMMMMMMMMM MMMMMMMMMMM MMMMMMMMMMM
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>MW - Subway Check</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NYC Subway Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="Real-time NYC Subway dashboard showing train status, service changes, and system information.">
     <meta name="keywords" content="NYC Subway, MTA, subway dashboard, train status, transit">
     <meta name="author" content="Max Warren">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#000000">
-    <meta property="og:title" content="NYC Subway Dashboard">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <meta property="og:title" content="Subway Check">
+    <meta property="og:site_name" content="Subway Check">
     <meta property="og:description" content="Real-time NYC Subway dashboard showing train status and service updates.">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="en_US">
+    <meta property="og:url" content="https://max.x10.mx/subway-check">
+    <meta property="og:image" content="https://max.x10.mx/_assets/img/subway-check.webp">
+    <meta name="twitter:image" content="https://max.x10.mx/_assets/img/subway-check.webp">
+    <meta name="twitter:site" content="@composedbymax">
+    <meta name="twitter:creator" content="@composedbymax">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="NYC Subway Dashboard">
+    <meta name="twitter:title" content="Subway Check">
     <meta name="twitter:description" content="Real-time NYC Subway dashboard showing train status and service updates.">
+    <meta name="color-scheme" content="dark light">
+    <meta name="supported-color-schemes" content="dark light">
+    <meta name="application-name" content="Subway Check">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="handheldfriendly" content="true">
+    <meta name="mobileoptimized" content="width">
+    <meta name="format-detection" content="telephone=no,email=no,address=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Subway Check">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="/_assets/img/icon-192.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="canonical" href="https://max.x10.mx/subway-check/">
+    <link rel="preload" href="/_assets/css/root.css" as="style">
+    <link rel="preload" href="assets/css/style.css" as="style">
+    <link rel="stylesheet" href="/_assets/css/root.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="assets/scripts/protobuf.min.js" defer></script>
+    <script src="assets/scripts/app.js" defer></script>
+    <script src="/_assets/scripts/header.js" defer></script>
+    <script src="/_assets/scripts/footer.js" defer></script>
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta name="mobile-web-app-capable" content="yes">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <script src="assets/scripts/protobuf.min.js"></script>
-    <script src="assets/scripts/app.js"></script>
-    <script src="/_assets/scripts/header.js"></script>
-    <script src="/_assets/scripts/footer.js"></script>
-    <link rel="stylesheet" href="/_assets/css/root.css">
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+    <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), camera=(), microphone=(), fullscreen=(self)">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self'; img-src 'self' https://max.x10.mx; font-src 'self'; connect-src 'self';">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Subway Check","description":"Real-time NYC Subway dashboard","applicationCategory":"TransportationApplication","operatingSystem":"Web"}</script>
 </head>
 <body>
-    <div class="container" id="appContainer"></div>
+    <main id="subwayCheck" class="container" role="main" aria-live="polite" aria-busy="true"></main>
+    <noscript>This app requires JavaScript to display live subway data.</noscript>
 </body>
 </html>

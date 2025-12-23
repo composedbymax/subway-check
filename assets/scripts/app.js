@@ -209,7 +209,7 @@ function selectGroup(group) {
     loadETAs(group);
 }
 function initializeUI() {
-    const container = document.getElementById('appContainer');
+    const container = document.getElementById('subwayCheck');
     const trainGroupsData = [
         { group: 'ace', name: 'ACEH', description: '8th Ave Lines' },
         { group: 'g', name: 'G', description: 'Brooklyn-Queens' },
@@ -229,24 +229,22 @@ function initializeUI() {
         `;
     });
     container.innerHTML = `
-        <main>
-            <h1>MTA Subway Check</h1>
-            <div class="train-groups" id="trainGroups">
-                ${trainGroupsHTML}
+        <h1>MTA Subway Check</h1>
+        <div class="train-groups" id="trainGroups">
+            ${trainGroupsHTML}
+        </div>
+        <div class="eta-container" id="etaContainer">
+            <div class="eta-header">
+                <h2 id="selectedGroup"></h2>
+                <button class="refresh-btn" id="refreshBtn">Refresh</button>
             </div>
-            <div class="eta-container" id="etaContainer">
-                <div class="eta-header">
-                    <h2 id="selectedGroup"></h2>
-                    <button class="refresh-btn" id="refreshBtn">Refresh</button>
-                </div>
-                <div id="filtersContainer" class="filters-container">
-                    <div id="trainFilters" class="train-filters"></div>
-                    <input type="text" id="stationSearch" class="station-search" placeholder="Search stations...">
-                </div>
-                <div id="etaContent"></div>
-                <div class="cache-info" id="cacheInfo"></div>
+            <div id="filtersContainer" class="filters-container">
+                <div id="trainFilters" class="train-filters"></div>
+                <input type="text" id="stationSearch" class="station-search" placeholder="Search stations...">
             </div>
-        </main>
+            <div id="etaContent"></div>
+            <div class="cache-info" id="cacheInfo"></div>
+        </div>
     `;
     document.querySelectorAll('.train-group').forEach(el => {
         el.addEventListener('click', () => {
