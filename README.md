@@ -42,6 +42,10 @@ This app uses official **MTA Subway GTFS-Realtime feeds**:
 | J Z | https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-jz |
 | L | https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-l |
 
+### Map Tiles
+
+Map tiles are sourced from [**MapLibre**](https://maplibre.org/) | [**OpenFreeMap © OpenMapTiles**](https://openmaptiles.org/), using data from [**OpenStreetMap**](https://www.openstreetmap.org/).
+
 ---
 
 ## Dependencies
@@ -54,6 +58,12 @@ This app uses official **MTA Subway GTFS-Realtime feeds**:
 - **GTFS Realtime Protobuf**
   - Definition file: `gtfs-realtime.proto`
   - Documentation: https://gtfs.org/documentation/realtime/proto/
+
+
+### MapLibre GL JS
+- **maplibre-gl.js** - Powers the interactive station map
+  - CDN: https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.6.0/maplibre-gl.min.css
+  - Documentation: https://maplibre.org/maplibre-gl-js/docs/
 
 
 ## Disclaimer
