@@ -334,6 +334,14 @@ async function loadStationData(stationName) {
         refreshBtn.disabled = false;
     }
 }
+function scrollToETAContainer() {
+    const etaContainer = document.getElementById('etaContainer');
+    if (etaContainer) {
+        const offset = 80;
+        const top = etaContainer.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+    }
+}
 function selectGroup(group) {
     currentGroup = group;
     searchMode = 'train';
@@ -346,7 +354,7 @@ function selectGroup(group) {
     document.getElementById('etaContainer').classList.add('show');
     document.getElementById('selectedGroup').textContent = group.toUpperCase() + ' Trains';
     document.getElementById('stationSearchFilter').value = '';
-    loadETAs(group);
+    loadETAs(group).then(() => scrollToETAContainer());
 }
 function setupMainSearch() {
     const mainSearch = document.getElementById('mainSearch');
@@ -441,6 +449,7 @@ function handleTrainSearch(train) {
             }
         });
         applyFilters();
+        scrollToETAContainer();
     });
 }
 function handleStationSearch(stationName) {
@@ -453,7 +462,7 @@ function handleStationSearch(stationName) {
     document.getElementById('etaContainer').classList.add('show');
     document.getElementById('selectedGroup').textContent = stationName;
     document.getElementById('stationSearchFilter').value = '';
-    loadStationData(stationName);
+    loadStationData(stationName).then(() => scrollToETAContainer());
 }
 function initializeUI() {
     const container = document.getElementById('subwayCheck');
