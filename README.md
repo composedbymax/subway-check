@@ -62,7 +62,8 @@ Map tiles are sourced from [**MapLibre**](https://maplibre.org/) | [**OpenFreeMa
 
 ### MapLibre GL JS
 - **maplibre-gl.js** - Powers the interactive station map
-  - CDN: https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.6.0/maplibre-gl.min.css
+  - CDN: https://unpkg.com/maplibre-gl@5.17.0/dist/maplibre-gl.js
+  - CSS CDN: https://unpkg.com/maplibre-gl@5.17.0/dist/maplibre-gl.css
   - Documentation: https://maplibre.org/maplibre-gl-js/docs/
 
 
