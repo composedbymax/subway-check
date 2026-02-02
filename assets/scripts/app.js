@@ -249,15 +249,15 @@ function displayETAs(stationETAs) {
     const sortedStations = Object.entries(stationETAs).sort(([a], [b]) => a.localeCompare(b));
     sortedStations.forEach(([stationId, station]) => {
         html += `
-            <div class="station-group">
-                <div class="station-name">${station.name}</div>
+            <div class="station-group notranslate">
+                <div class="station-name notranslate">${station.name}</div>
         `;
         station.arrivals.forEach(arrival => {
             html += `
                 <div class="eta-item">
                     <div class="eta-info">
                         <div class="route-badge">${arrival.route}</div>
-                        <span class="direction">${arrival.direction}</span>
+                        <span class="direction notranslate">${arrival.direction}</span>
                     </div>
                     <div class="time">${formatETA(arrival.time)}</div>
                 </div>
@@ -378,7 +378,7 @@ function setupMainSearch() {
         if (trainMatches.length > 0) {
             html += '<div class="search-section"><h3>Trains</h3>';
             trainMatches.slice(0, 5).forEach(train => {
-                html += `<div class="search-result" data-type="train" data-value="${train}">
+                html += `<div class="search-result notranslate" data-type="train" data-value="${train}">
                     <div class="route-badge">${train}</div>
                     <span>${train} Train</span>
                 </div>`;
@@ -390,7 +390,7 @@ function setupMainSearch() {
             stationMatches.slice(0, 10).forEach(station => {
                 const groups = STATION_TO_GROUPS[station.name] || [];
                 const groupText = groups.length > 0 ? ` · ${groups.join(', ').toUpperCase()}` : '';
-                html += `<div class="search-result" data-type="station" data-value="${station.name}">
+                html += `<div class="search-result notranslate" data-type="station" data-value="${station.name}">
                     <span>${station.name}<span style="opacity: 0.6">${groupText}</span></span>
                 </div>`;
             });
@@ -446,6 +446,7 @@ function handleTrainSearch(train) {
 function handleStationSearch(stationName) {
     searchMode = 'station';
     currentGroup = null;
+    activeTrains.clear();
     document.querySelectorAll('.train-group').forEach(el => {
         el.classList.remove('active');
     });
@@ -468,7 +469,7 @@ function initializeUI() {
     let trainGroupsHTML = '';
     trainGroupsData.forEach(item => {
         trainGroupsHTML += `
-            <div class="train-group" data-group="${item.group}">
+            <div class="notranslate train-group" data-group="${item.group}">
                 <h2>${item.name}</h2>
                 <p>${item.description}</p>
             </div>
@@ -479,18 +480,18 @@ function initializeUI() {
         <h1>MTA Subway Check</h1>
         <div class="main-search-container">
             <input type="text" id="mainSearch" class="main-search" placeholder="Search for trains or stations...">
-            <div id="searchResults" class="search-results"></div>
+            <div id="searchResults" class="search-results notranslate"></div>
         </div>
-        <div class="train-groups" id="trainGroups">
+        <div class="train-groups notranslate" id="trainGroups">
             ${trainGroupsHTML}
         </div>
         <div class="eta-container" id="etaContainer">
             <div class="eta-header">
-                <h2 id="selectedGroup"></h2>
+                <h2 id="selectedGroup" class="notranslate"></h2>
                 <button class="refresh-btn" id="refreshBtn">Refresh</button>
             </div>
             <div id="filtersContainer" class="filters-container">
-                <div id="trainFilters" class="train-filters"></div>
+                <div id="trainFilters" class="train-filters notranslate"></div>
                 <input type="text" id="stationSearchFilter" class="station-search" placeholder="Filter stations...">
             </div>
             <div id="etaContent"></div>
