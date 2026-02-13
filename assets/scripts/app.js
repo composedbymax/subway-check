@@ -282,9 +282,14 @@ function displayETAs(stationETAs) {
 async function loadETAs(group) {
     const content = document.getElementById('etaContent');
     const refreshBtn = document.getElementById('refreshBtn');
+    const stationSearchFilter = document.getElementById('stationSearchFilter');
     activeTrains.clear();
     content.innerHTML = '<div class="loading"><div class="spinner"></div>Loading train data...</div>';
     refreshBtn.disabled = true;
+    if (stationSearchFilter) {
+        stationSearchFilter.style.display = 'block';
+        window.dispatchEvent(new CustomEvent('stationFilterVisibility', { detail: { visible: true } }));
+    }
     try {
         const feed = await fetchFeedData(group);
         const { stationETAs, trains } = processFeedData(feed);
@@ -301,8 +306,13 @@ async function loadETAs(group) {
 async function loadStationData(stationName) {
     const content = document.getElementById('etaContent');
     const refreshBtn = document.getElementById('refreshBtn');
+    const stationSearchFilter = document.getElementById('stationSearchFilter');
     content.innerHTML = '<div class="loading"><div class="spinner"></div>Loading station data...</div>';
     refreshBtn.disabled = true;
+    if (stationSearchFilter) {
+        stationSearchFilter.style.display = 'none';
+        window.dispatchEvent(new CustomEvent('stationFilterVisibility', { detail: { visible: false } }));
+    }
     currentStationName = stationName;
     try {
         const groupsToLoad = STATION_TO_GROUPS[stationName] || [];
@@ -314,7 +324,6 @@ async function loadStationData(stationName) {
         currentStationIds = Object.entries(STOP_NAMES)
             .filter(([id, name]) => name === stationName)
             .map(([id]) => id);
-
         allStationETAs = {};
         const allTrains = new Set();
         for (let i = 0; i < groupsToLoad.length; i++) {

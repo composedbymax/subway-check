@@ -171,16 +171,37 @@
   }
   window.selectMapStation = selectStation;
   function init() {
-    const addButtons = () => {
-      const mainSearch = document.getElementById('mainSearch');
-      if (mainSearch && !mainSearch.parentElement.querySelector('.location-btn')) {
-        addLocationButton(mainSearch);
+  const addButtons = () => {
+    const mainSearch = document.getElementById('mainSearch');
+    if (mainSearch && !mainSearch.parentElement.querySelector('.location-btn')) {
+      addLocationButton(mainSearch);
+    }
+    const filter = document.getElementById('stationSearchFilter');
+    if (filter && 
+        filter.style.display !== 'none' && 
+        !filter.closest('.location-input-wrapper') && 
+        !filter.parentElement.querySelector('.location-btn')) {
+      addLocationButton(filter);
+    }
+  };
+  window.addEventListener('stationFilterVisibility', (e) => {
+    const filter = document.getElementById('stationSearchFilter');
+      if (!filter) return;
+      const wrapper = filter.closest('.location-input-wrapper');
+      if (e.detail.visible) {
+        if (!wrapper && !filter.parentElement.querySelector('.location-btn')) {
+          addLocationButton(filter);
+        } else if (wrapper) {
+          const btn = wrapper.querySelector('.location-btn');
+          if (btn) btn.style.display = 'flex';
+        }
+      } else {
+        if (wrapper) {
+          const btn = wrapper.querySelector('.location-btn');
+          if (btn) btn.style.display = 'none';
+        }
       }
-      const filter = document.getElementById('stationSearchFilter');
-      if (filter && !filter.closest('.location-input-wrapper') && !filter.parentElement.querySelector('.location-btn')) {
-        addLocationButton(filter);
-      }
-    };
+    });
     addButtons();
     const observer = new MutationObserver(addButtons);
     observer.observe(document.body, { childList: true, subtree: true });
