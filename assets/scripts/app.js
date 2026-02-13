@@ -270,6 +270,7 @@ function displayETAs(stationETAs) {
 async function loadETAs(group) {
     const content = document.getElementById('etaContent');
     const refreshBtn = document.getElementById('refreshBtn');
+    activeTrains.clear();
     content.innerHTML = '<div class="loading"><div class="spinner"></div>Loading train data...</div>';
     refreshBtn.disabled = true;
     try {
