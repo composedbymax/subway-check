@@ -129,9 +129,21 @@ function formatETA(timestamp) {
     const now = Math.floor(Date.now() / 1000);
     const diff = timestamp - now;
     const minutes = Math.floor(diff / 60);
-    if (minutes < 1) return "Arriving";
-    if (minutes === 1) return "1 min";
-    return `${minutes} mins`;
+    if (minutes <= 0) {
+        return `
+            <span class="eta-arriving">Arriving</span>
+        `;
+    }
+    const arrivalDate = new Date(timestamp * 1000);
+    const arrivalTimeString = arrivalDate.toLocaleTimeString([], {
+        hour: 'numeric',
+        minute: '2-digit'
+    });
+    return `
+        <span class="eta-min-number">${minutes}</span>
+        <span class="eta-min-text">min${minutes === 1 ? '' : 's'}</span>
+        <span class="eta-clock">${arrivalTimeString}</span>
+    `;
 }
 function getStopName(stopId) {
     const cleanId = stopId.replace(/[NS]$/, '');

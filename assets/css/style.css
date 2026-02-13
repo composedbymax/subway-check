@@ -73,7 +73,12 @@ h1{text-align: center;color: var(--text);margin-bottom: 30px;font-size: 2.5rem;t
 .eta-info{display: flex;align-items: center;gap: 15px;}
 .route-badge{background: var(--black);color: var(--text);width: 40px;height: 40px;border-radius: 50%;display: flex;align-items: center;justify-content: center;font-weight: bold;font-size: 1.2rem;}
 .direction{color: var(--blackw);font-size: 0.95rem;}
-.time{font-size: 1.1rem;font-weight: 600;color: var(--blue);}
+.time{display: flex;align-items: center;gap: 8px;}
+.eta-min-number{font-size: 1.4rem;font-weight: 700;color: var(--blue);}
+.eta-min-text{font-size: 0.75rem;font-weight: 600;opacity: 0.8;}
+.eta-clock{background: #000;color: var(--blue);padding: 4px 8px;border-radius: 6px;font-size: 1.1rem;font-weight: 600;font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Courier New",monospace;letter-spacing: 1px;}
+.eta-arriving{font-size: 1.1rem;font-weight: 700;color: var(--blue);}
+@media (max-width: 768px){.time{flex-direction: column;align-items: flex-end;gap: 4px;}.eta-clock{margin-top: 4px;white-space: nowrap;overflow: hidden;}}
 .error{background: var(--red);color: var(--text);padding: 15px;border-radius: 8px;margin: 20px 0;text-align: center;}
 .no-data{text-align: center;padding: 40px;color: var(--text2);font-size: 1.1rem;}
 .cache-info{text-align: center;color: var(--text2);font-size: 0.85rem;margin-top: 15px;}
@@ -83,3 +88,23 @@ h1{text-align: center;color: var(--text);margin-bottom: 30px;font-size: 2.5rem;t
 .eta-header{flex-direction: column;align-items: flex-start;gap: 15px;}
 .eta-header h2{font-size: 1.5rem;}
 .main-search{font-size: 1rem;padding: 12px 16px;}}
+.modal-overlay{position: fixed;inset: 0;background: var(--darken4);z-index: 10000;display: flex;align-items: center;justify-content: center;padding: 20px;}
+.modal-container{width: 100%;max-width: 900px;height: 80vh;background: var(--black);border-radius: 12px;overflow: hidden;position: relative;box-shadow: 0 10px 40px var(--darken4);}
+.modal-close-btn{position: absolute;top: 10px;right: 10px;z-index: 10001;background: var(--whitew);border: none;width: 40px;height: 40px;border-radius: 50%;font-size: 24px;cursor: pointer;color: var(--blackw);box-shadow: 0 2px 8px var(--darken3);transition: background 0.2s, opacity 0.2s;}
+.modal-close-btn:hover{background: var(--glass-white2);}
+.modal-map{width: 100%;height: 100%;}
+.location-input-wrapper{position: relative;display: inline-block;width: 100%;}
+.location-btn{position: absolute;right: 15px;top: 50%;transform: translateY(-50%);z-index: 100;cursor: pointer;transition: opacity 0.2s;}
+.location-btn:hover{opacity: 0.7;}
+.map-popup{padding: 5px;}
+.map-popup-title{display: block;font-weight: 600;color: var(--text);}
+.map-popup-btn{margin-top: 8px;padding: 6px 12px;background: var(--blue);color: var(--text);border: none;border-radius: 4px;cursor: pointer;font-size: 13px;transition: opacity 0.2s;}
+.map-popup-btn:hover{opacity: 0.85;}
+.main-search,
+.station-search{padding-right: 50px !important;}
+.maplibregl-popup-content{background: var(--black);border-radius: 8px;box-shadow: 0 4px 12px var(--darken3);color: var(--text);}
+.maplibregl-popup-content button:hover{background: var(--cyan) !important;}
+.maplibregl-marker{cursor: pointer;transition: transform 0.2s;}
+.maplibregl-marker:hover{transform: scale(1.1);}
+.location-icon{width: 20px;height: 20px;fill: var(--text);display: block;}
+.location-btn:hover .location-icon{fill: var(--blue);}
